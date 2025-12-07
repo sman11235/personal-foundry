@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 /**
- * A registery that maps kafka event type names to ITypeStratgy implementations
+ * A registery that maps kafka event type names to ITypeStratgy implementations.
  */
 @Service
 public class TypeStrategyRegistry {
