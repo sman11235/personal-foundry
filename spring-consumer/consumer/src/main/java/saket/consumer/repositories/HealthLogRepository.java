@@ -1,4 +1,4 @@
-package saket.consumer.registries;
+package saket.consumer.repositories;
 
 import java.util.List;
 
