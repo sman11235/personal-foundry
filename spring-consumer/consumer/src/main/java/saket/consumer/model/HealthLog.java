@@ -5,7 +5,7 @@ import lombok.*;
 import java.time.Instant;
 
 /**
- * A class that acts as the model for the health_log column in the database.
+ * A class that acts as the model for the health_log table in the database.
  * Tracks health data (step, miles traveled, etc.)
  */
 @Entity

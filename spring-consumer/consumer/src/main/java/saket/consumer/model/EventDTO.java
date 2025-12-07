@@ -7,7 +7,7 @@ import saket.consumer.services.EventOp;
 import tools.jackson.databind.JsonNode;
 
 /**
- * A DTO that represents the raw kafka events that are send to this consumer.
+ * A DTO that represents the kafka events that are send to this consumer.
  */
 @Data
 public class EventDTO {

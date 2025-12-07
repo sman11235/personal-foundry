@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.List;
 
 /**
- * A class that acts as the model for the known_place column in the database.
+ * A class that acts as the model for the known_place table in the database.
  * Tracks known discrete locations I have traveled to (Starbucks, library, etc.)
  */
 @Entity

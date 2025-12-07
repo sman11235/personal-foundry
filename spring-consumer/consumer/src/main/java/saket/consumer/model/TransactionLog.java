@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 /**
- * A class that acts as the model for the transaction_log column in the database.
+ * A class that acts as the model for the transaction_log table in the database.
  * Tracks transactions i've made (ie. 50 dollars at starbuck)
  */
 @Entity

@@ -6,7 +6,7 @@ import java.time.Instant;
 import java.util.List;
 
 /**
- * A class that acts as the model for the visits column in the database.
+ * A class that acts as the model for the visits table in the database.
  * Tracks instances when i've been to a certain location for a while and done actions there.
  * This is where most of the correlation logic will be acting on.
  * Ex: 30 dollars spent at Starbucks while there for 40 mins

@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.time.Instant;
 
 /**
- * A class that acts as the model for the dev_log column in the database.
+ * A class that acts as the model for the dev_log table in the database.
  * Tracks developer activity (github commits, leetcode, etc.)
  */
 @Entity

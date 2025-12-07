@@ -10,4 +10,9 @@ class ConsumerApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void getFromDB() {
+		
+	}
+
 }

@@ -6,7 +6,7 @@ import org.locationtech.jts.geom.Point;
 import java.time.Instant;
 
 /**
- * A class that acts as the model for the location_log column in the database.
+ * A class that acts as the model for the location_log table in the database.
  * Tracks the continuous location I have been to (lat log coords like (12.3, 124.5))
  */
 @Entity
