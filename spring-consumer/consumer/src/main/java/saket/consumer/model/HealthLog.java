@@ -10,7 +10,7 @@ import java.time.Instant;
  */
 @Entity
 @Table(name = "health_logs")
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

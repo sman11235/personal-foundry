@@ -11,7 +11,7 @@ import java.time.Instant;
  */
 @Entity
 @Table(name = "location_logs")
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

@@ -14,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "known_places")
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

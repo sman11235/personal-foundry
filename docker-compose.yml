@@ -80,6 +80,8 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/personal_foundry
       - SPRING_DATASOURCE_USERNAME=user
       - SPRING_DATASOURCE_PASSWORD=pass
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     networks:
       - pf-network
   

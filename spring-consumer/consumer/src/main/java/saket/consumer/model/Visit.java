@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "visits")
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

@@ -13,7 +13,7 @@ import java.time.Instant;
  */
 @Entity
 @Table(name = "dev_logs")
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

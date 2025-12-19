@@ -38,7 +38,7 @@ CREATE TABLE health_logs (
     metric_type VARCHAR(50) NOT NULL,
     val DOUBLE PRECISION NOT NULL,
     unit VARCHAR(20) NOT NULL,
-    visit_id BIGINT REFERENCES visit(id)
+    visit_id BIGINT REFERENCES visits(id)
 );
 
 CREATE TABLE dev_logs (
