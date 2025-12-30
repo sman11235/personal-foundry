@@ -78,4 +78,15 @@ public class LocationLogService {
     public Optional<LocationLog> getById(Long id) {
         return locationLogRepository.findById(id);
     }
+
+    /**
+     * Gets all nearby LocationLogs given a search radius.
+     * @param point the point from which the search will be conducted.
+     * @param radius the radius from with the search circle will extend from point.
+     * @return a list of LocationLogs found.
+     */
+    @Transactional
+    public List<LocationLog> getNearbyLocations(Point point, double radius) {
+        return locationLogRepository.findNearByLocations(point, radius);
+    }
 }

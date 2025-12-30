@@ -30,7 +30,7 @@ public class PointFormatUtil {
             throw new IllegalLatitudeException("Latitude is either greater than 90 or less than -90, and thus invalid.");
         if (lon < -180 || lon > 180) 
             throw new IllegalLongitudeException("Longitude is either greater than 90 or less than -90, and thus invalid.");
-        Point p = GF.createPoint(new Coordinate(lat, lon));
+        Point p = GF.createPoint(new Coordinate(lon, lat));
         p.setSRID(SRID_WGS84);
         return p;
     }

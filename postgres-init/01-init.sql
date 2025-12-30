@@ -4,7 +4,7 @@ CREATE TABLE known_places (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(100),            -- "Home", "Starbucks North Ave", "Office"
     category VARCHAR(50),         -- "Residential", "Cafe", "Work"
-    loc GEOMETRY(POINT, 4326),   
+    loc GEOGRAPHY(POINT, 4326),   
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -19,7 +19,7 @@ CREATE TABLE location_logs (
     id BIGSERIAL PRIMARY KEY,
     timestamp TIMESTAMPTZ NOT NULL,
     device_id VARCHAR(50) NOT NULL,
-    loc GEOMETRY(POINT, 4326),
+    loc GEOGRAPHY(POINT, 4326),
     visit_id BIGINT REFERENCES visits(id)
 );
 

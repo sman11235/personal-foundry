@@ -28,7 +28,7 @@ public class KnownPlaceService {
      * @param category the category of place (home, leisure, shopping, ...)
      * @param latitude the latitude of the place.
      * @param longitude the longitude of the place.
-     * @return a KnownPlace objectthat was save to DB.
+     * @return a KnownPlace object that was save to DB.
      */
     @Transactional
     public KnownPlace createPlace(String name, String category, double latitude, double longitude) {
@@ -66,7 +66,7 @@ public class KnownPlaceService {
      * @param latitude latitude of the search point
      * @param longitude longitude of the search point.
      * @param radiusInMeters the radius of the search circle.
-     * @return returns the list of places found in the circle.
+     * @return returns the list of places found within the search circle.
      */
     @Transactional(readOnly = true)
     public List<KnownPlace> findNearby(double latitude, double longitude, double radiusInMeters) {
