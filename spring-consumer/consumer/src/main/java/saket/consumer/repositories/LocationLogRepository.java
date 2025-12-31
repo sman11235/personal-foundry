@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import org.locationtech.jts.geom.Point;
+import saket.consumer.domain.LocationLog;
 
-import saket.consumer.model.LocationLog;
+import org.locationtech.jts.geom.Point;
 
 @Repository
 public interface LocationLogRepository extends JpaRepository<LocationLog, Long> {

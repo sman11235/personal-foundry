@@ -1,7 +1,7 @@
 package saket.consumer.services.db_services;
 
-import saket.consumer.model.TransactionLog;
-import saket.consumer.model.Visit;
+import saket.consumer.domain.TransactionLog;
+import saket.consumer.domain.Visit;
 import saket.consumer.repositories.TransactionLogRepository;
 import saket.consumer.repositories.VisitRepository;
 import lombok.RequiredArgsConstructor;

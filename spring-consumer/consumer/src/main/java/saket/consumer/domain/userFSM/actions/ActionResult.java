@@ -1,6 +1,6 @@
-package saket.consumer.model.userFSM.actions;
+package saket.consumer.domain.userFSM.actions;
 
-import saket.consumer.model.userFSM.states.DiscreteState;
+import saket.consumer.domain.userFSM.states.DiscreteState;
 
 public record ActionResult(Long visitId, Long placeId, DiscreteState forcedState) {
     public static ActionResult emptyResult() {

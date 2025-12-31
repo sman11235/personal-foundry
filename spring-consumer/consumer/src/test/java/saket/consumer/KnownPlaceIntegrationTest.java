@@ -1,5 +1,5 @@
 package saket.consumer;
-import saket.consumer.model.KnownPlace;
+import saket.consumer.domain.KnownPlace;
 import saket.consumer.services.db_services.KnownPlaceService;
 
 import org.junit.jupiter.api.AfterAll;

@@ -1,7 +1,7 @@
 package saket.consumer.services.db_services;
 
-import saket.consumer.model.HealthLog;
-import saket.consumer.model.Visit;
+import saket.consumer.domain.HealthLog;
+import saket.consumer.domain.Visit;
 import saket.consumer.repositories.HealthLogRepository;
 import saket.consumer.repositories.VisitRepository;
 import lombok.RequiredArgsConstructor;

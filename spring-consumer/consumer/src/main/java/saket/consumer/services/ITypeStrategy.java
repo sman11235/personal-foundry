@@ -1,6 +1,6 @@
 package saket.consumer.services;
 
-import saket.consumer.model.EventDTO;
+import saket.consumer.domain.EventDTO;
 
 /**
  * An interface that defined handlers for different kafka event types.

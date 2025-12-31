@@ -1,7 +1,7 @@
 package saket.consumer.services.db_services;
 
-import saket.consumer.model.KnownPlace;
-import saket.consumer.model.Visit;
+import saket.consumer.domain.KnownPlace;
+import saket.consumer.domain.Visit;
 import saket.consumer.repositories.VisitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

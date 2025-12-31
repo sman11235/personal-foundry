@@ -1,4 +1,4 @@
-package saket.consumer.model;
+package saket.consumer.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,4 +38,8 @@ public class KnownPlace {
 
     @OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
     private List<Visit> visits;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private KnownPlaceStatus status;
 }

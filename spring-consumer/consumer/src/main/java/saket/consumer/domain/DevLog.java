@@ -1,4 +1,4 @@
-package saket.consumer.model;
+package saket.consumer.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

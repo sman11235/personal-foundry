@@ -1,4 +1,4 @@
-package saket.consumer.model.userFSM.states;
+package saket.consumer.domain.userFSM.states;
 
 /**
  * All the states the user can possible be in.

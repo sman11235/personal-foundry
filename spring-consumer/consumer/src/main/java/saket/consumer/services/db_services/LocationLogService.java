@@ -1,7 +1,7 @@
 package saket.consumer.services.db_services;
 
-import saket.consumer.model.LocationLog;
-import saket.consumer.model.Visit;
+import saket.consumer.domain.LocationLog;
+import saket.consumer.domain.Visit;
 import saket.consumer.repositories.LocationLogRepository;
 import saket.consumer.repositories.VisitRepository;
 import lombok.RequiredArgsConstructor;

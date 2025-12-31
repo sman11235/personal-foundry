@@ -5,7 +5,8 @@ CREATE TABLE known_places (
     name VARCHAR(100),            -- "Home", "Starbucks North Ave", "Office"
     category VARCHAR(50),         -- "Residential", "Cafe", "Work"
     loc GEOGRAPHY(POINT, 4326),   
-    created_at TIMESTAMPTZ DEFAULT NOW()
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    status TEXT NOT NULL
 );
 
 CREATE TABLE visits (

@@ -1,7 +1,7 @@
 package saket.consumer.services.db_services;
 
-import saket.consumer.model.DevLog;
-import saket.consumer.model.Visit;
+import saket.consumer.domain.DevLog;
+import saket.consumer.domain.Visit;
 import saket.consumer.repositories.DevLogRepository;
 import saket.consumer.repositories.VisitRepository;
 import com.fasterxml.jackson.databind.JsonNode;

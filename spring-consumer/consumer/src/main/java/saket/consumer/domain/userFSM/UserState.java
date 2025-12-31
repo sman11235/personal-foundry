@@ -1,7 +1,7 @@
-package saket.consumer.model.userFSM;
+package saket.consumer.domain.userFSM;
 
+import saket.consumer.domain.userFSM.states.DiscreteState;
 import saket.consumer.exceptions.InvalidStateException;
-import saket.consumer.model.userFSM.states.DiscreteState;
 /**
  * Contains the state of the user.
  * 

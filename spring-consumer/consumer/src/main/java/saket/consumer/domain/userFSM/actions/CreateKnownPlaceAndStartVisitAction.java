@@ -1,19 +1,18 @@
-package saket.consumer.model.userFSM.actions;
+package saket.consumer.domain.userFSM.actions;
 
 import java.time.Instant;
 
 import org.locationtech.jts.geom.Point;
 
-import saket.consumer.model.userFSM.states.DiscreteState;
+import saket.consumer.domain.userFSM.states.DiscreteState;
 
-public record CreateKnownPlaceAndStartVisitAction(Point centroid, 
-		Instant start, 
-		String name, 
-		String category
+public record CreateKnownPlaceAndStartVisitAction(
+		Point centroid, 
+		Instant start
 	) implements StateAction {
 		@Override
 		public ActionResult execute(StateActionContext ctx) {
-			long placeId = ctx.createNewKnownPlace(centroid, name, category);
+			long placeId = ctx.createNewKnownPlace(centroid);
 			long visitId = ctx.startVisit(placeId, start);
 			return new ActionResult(visitId, placeId, DiscreteState.VISITING);
 		}

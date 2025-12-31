@@ -1,8 +1,8 @@
-package saket.consumer.model.userFSM.actions;
+package saket.consumer.domain.userFSM.actions;
 
 import java.time.Instant;
 
-import saket.consumer.model.userFSM.states.DiscreteState;
+import saket.consumer.domain.userFSM.states.DiscreteState;
 
 public record StartVisit(long placeId, Instant start) implements StateAction {
     @Override

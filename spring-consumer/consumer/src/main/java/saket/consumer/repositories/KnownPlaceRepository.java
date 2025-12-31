@@ -6,9 +6,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import org.locationtech.jts.geom.Point;
+import saket.consumer.domain.KnownPlace;
 
-import saket.consumer.model.KnownPlace;
+import org.locationtech.jts.geom.Point;
 
 @Repository
 public interface KnownPlaceRepository extends JpaRepository<KnownPlace, Long> {

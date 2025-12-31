@@ -1,6 +1,6 @@
 package saket.consumer.services.db_services;
 
-import saket.consumer.model.KnownPlace;
+import saket.consumer.domain.KnownPlace;
 import saket.consumer.repositories.KnownPlaceRepository;
 import lombok.RequiredArgsConstructor;
 import org.locationtech.jts.geom.Point;
