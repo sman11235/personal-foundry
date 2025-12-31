@@ -9,7 +9,17 @@ import saket.consumer.domain.userFSM.UserState;
 import saket.consumer.domain.userFSM.actions.CreateKnownPlaceAndStartVisitAction;
 import saket.consumer.domain.userFSM.actions.StartVisit;
 
+/**
+ * This class represents the START state of the user.
+ * This means that the program does not have a sliding window long enough to make assumptions about the user..
+ */
 public class StartState implements IUserState {
+    
+    @Override
+    public DiscreteState stateName() {
+        return DiscreteState.START;
+    }
+
     @Override
     public StateDecision onLocation(UserState userContext, UserLocationContext locationContext) {
         long windowLengthMins = Duration.between(locationContext.timestamp(), locationContext.oldestTimestampInWindow()).toMinutes();

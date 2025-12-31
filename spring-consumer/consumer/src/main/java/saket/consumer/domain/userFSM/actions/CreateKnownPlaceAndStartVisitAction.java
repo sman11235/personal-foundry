@@ -6,6 +6,9 @@ import org.locationtech.jts.geom.Point;
 
 import saket.consumer.domain.userFSM.states.DiscreteState;
 
+/**
+ * A command that creates a known place, names it, and starts a visit.
+ */
 public record CreateKnownPlaceAndStartVisitAction(
 		Point centroid, 
 		Instant start

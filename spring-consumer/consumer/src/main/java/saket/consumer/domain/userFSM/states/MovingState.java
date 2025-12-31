@@ -9,10 +9,19 @@ import saket.consumer.domain.userFSM.UserState;
 import saket.consumer.domain.userFSM.actions.CreateKnownPlaceAndStartVisitAction;
 import saket.consumer.domain.userFSM.actions.StartVisit;
 
+/**
+ * This class represents the MOVING state of the user.
+ * This means that the user is traveling, and not visiting a known_place.
+ */
 public class MovingState implements IUserState {
+    
+    @Override
+    public DiscreteState stateName() {
+        return DiscreteState.MOVING;
+    }
 
     @Override
-    public StateDecision onLocation(UserState userState, UserLocationContext locationContext) {
+    public StateDecision onLocation(UserState userContext, UserLocationContext locationContext) {
 
         long windowLengthMins = Duration.between(locationContext.timestamp(), locationContext.oldestTimestampInWindow()).toMinutes();
         if (windowLengthMins <= 45 - 5) { //replace 45 with whatever constant is decided for the min window length.

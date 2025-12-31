@@ -8,7 +8,17 @@ import saket.consumer.domain.userFSM.UserLocationContext;
 import saket.consumer.domain.userFSM.UserState;
 import saket.consumer.domain.userFSM.actions.EndVisit;
 
+/**
+ * This class represents the VISITING state of the user.
+ * This means that the user is visiting a certain known_place.
+ */
 public class VisitingState implements IUserState {
+
+    @Override
+    public DiscreteState stateName() {
+        return DiscreteState.VISITING;
+    }
+
     @Override
     public StateDecision onLocation(UserState userContext, UserLocationContext locationContext) {
         long windowLengthMins = Duration.between(locationContext.timestamp(), locationContext.oldestTimestampInWindow()).toMinutes();

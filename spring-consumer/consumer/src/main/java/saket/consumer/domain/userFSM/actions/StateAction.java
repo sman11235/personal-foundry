@@ -8,7 +8,7 @@ public interface StateAction {
     /**
      * Executes the action stored within StateAction.
      * @param context The infrastructure context to which the action will change the state of.
-     * @return True if success, else false.
+     * @return ActionResult. Read its javadocs for more info.
      */
     ActionResult execute(StateActionContext context);
 }
