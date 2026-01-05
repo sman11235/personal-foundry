@@ -1,6 +1,6 @@
 package saket.consumer.services;
 
-import saket.consumer.model.EventDTO;
+import saket.consumer.domain.EventDTO;
 
 public class LocationStrategy implements ITypeStrategy {
     @Override

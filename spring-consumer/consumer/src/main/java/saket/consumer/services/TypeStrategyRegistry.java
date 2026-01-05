@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 /**
  * A registery that maps kafka event type names to ITypeStratgy implementations.
  */
-@Service
+@Component
 public class TypeStrategyRegistry {
     
     private final Map<String, ITypeStrategy> typeMap;

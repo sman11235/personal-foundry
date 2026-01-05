@@ -12,6 +12,15 @@ public class UserState {
     private DiscreteState state;
     private Long currentVisit;
 
+    public UserState(DiscreteState s) {
+        state = s;
+    }
+
+    public UserState(DiscreteState s, long currVisitId) {
+        state = s;
+        currentVisit = currVisitId;
+    }
+
     public DiscreteState getState() {
         return state;
     }

@@ -22,24 +22,29 @@ public class StartState implements IUserState {
 
     @Override
     public StateDecision onLocation(UserState userContext, UserLocationContext locationContext) {
-        long windowLengthMins = Duration.between(locationContext.timestamp(), locationContext.oldestTimestampInWindow()).toMinutes();
+        long windowLengthMins = Math.abs(Duration.between(locationContext.timestamp(), locationContext.oldestTimestampInWindow()).toMinutes());
         if (windowLengthMins <= 45 - 5) { //replace 45 with whatever constant is decided for the min window length.
             return new StateDecision(DiscreteState.START, 
                 List.of()
             );
         }
+
         if (locationContext.stationary()) {
             if (locationContext.nearestKnownPlaceIn50m() == null) {
                 return new StateDecision(DiscreteState.VISITING,
-                    List.of(new CreateKnownPlaceAndStartVisitAction(
-                        locationContext.centroid(), 
-                        locationContext.timestamp())
+                    List.of(
+                        new CreateKnownPlaceAndStartVisitAction(
+                            locationContext.centroid(), 
+                            locationContext.timestamp()
+                        )
                     )
                 );
             }
 
             return new StateDecision(DiscreteState.VISITING, 
-                List.of(new StartVisit(locationContext.nearestKnownPlaceIn50m().getId(), locationContext.timestamp()))
+                List.of(
+                    new StartVisit(locationContext.nearestKnownPlaceIn50m().getId(), locationContext.timestamp())
+                )
             );
         }
 
