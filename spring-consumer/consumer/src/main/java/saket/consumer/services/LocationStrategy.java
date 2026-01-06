@@ -1,7 +1,10 @@
 package saket.consumer.services;
 
+import org.springframework.stereotype.Component;
+
 import saket.consumer.domain.EventDTO;
 
+@Component
 public class LocationStrategy implements ITypeStrategy {
     @Override
     public String getTopicType() {

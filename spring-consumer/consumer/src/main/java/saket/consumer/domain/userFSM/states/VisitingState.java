@@ -3,10 +3,11 @@ package saket.consumer.domain.userFSM.states;
 import java.time.Duration;
 import java.util.List;
 
+import saket.consumer.domain.actions.EndVisit;
 import saket.consumer.domain.userFSM.StateDecision;
 import saket.consumer.domain.userFSM.UserLocationContext;
 import saket.consumer.domain.userFSM.UserState;
-import saket.consumer.domain.userFSM.actions.EndVisit;
+import saket.consumer.services.Constants;
 
 /**
  * This class represents the VISITING state of the user.
@@ -26,7 +27,7 @@ public class VisitingState implements IUserState {
                                             " Currently, currentVisitID is null (User is not visiting anywhere).");
         }
         long windowLengthMins = Math.abs(Duration.between(locationContext.timestamp(), locationContext.oldestTimestampInWindow()).toMinutes());
-        if (windowLengthMins <= 45 - 5) { //replace 45 with whatever constant is decided for the min window length.
+        if (windowLengthMins <= Constants.WINDOW_DURATION_MINS) {
             return new StateDecision(DiscreteState.START, 
                 List.of(new EndVisit(userContext.getCurrentVisit(), locationContext.timestamp()))
             );

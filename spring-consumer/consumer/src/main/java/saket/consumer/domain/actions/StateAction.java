@@ -1,4 +1,4 @@
-package saket.consumer.domain.userFSM.actions;
+package saket.consumer.domain.actions;
 
 /**
  * A interface to define a class that does a single task (such as find nearby known_places.)

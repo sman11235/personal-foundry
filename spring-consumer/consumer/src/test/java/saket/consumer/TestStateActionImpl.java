@@ -4,7 +4,7 @@ import java.time.Instant;
 
 import org.locationtech.jts.geom.Point;
 
-import saket.consumer.domain.userFSM.actions.StateActionContext;
+import saket.consumer.domain.actions.StateActionContext;
 
 public class TestStateActionImpl implements StateActionContext {
     @Override

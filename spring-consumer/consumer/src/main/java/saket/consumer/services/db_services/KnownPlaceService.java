@@ -32,7 +32,7 @@ public class KnownPlaceService {
      */
     @Transactional
     public KnownPlace createPlace(String name, String category, double latitude, double longitude) {
-        Point point = PointFormatUtil.wgs84FromLatLon(latitude, longitude);
+        Point point = PointUtil.wgs84FromLatLon(latitude, longitude);
         KnownPlace place = KnownPlace.builder()
                 .name(name)
                 .category(category)
@@ -63,14 +63,12 @@ public class KnownPlaceService {
 
     /**
      * Finds known places within a radius of meters.
-     * @param latitude latitude of the search point
-     * @param longitude longitude of the search point.
+     * @param point the point from with the search will be conducted.
      * @param radiusInMeters the radius of the search circle.
      * @return returns the list of places found within the search circle.
      */
     @Transactional(readOnly = true)
-    public List<KnownPlace> findNearby(double latitude, double longitude, double radiusInMeters) {
-        Point point = PointFormatUtil.wgs84FromLatLon(latitude, longitude);
+    public List<KnownPlace> findNearby(Point point, double radiusInMeters) {
         return knownPlaceRepository.findNearby(point, radiusInMeters);
     }
 }

@@ -1,4 +1,4 @@
-package saket.consumer.domain.userFSM.actions;
+package saket.consumer.domain.actions;
 
 import saket.consumer.domain.userFSM.states.DiscreteState;
 

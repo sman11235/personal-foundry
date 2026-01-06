@@ -2,7 +2,7 @@ package saket.consumer.domain.userFSM;
 
 import java.util.List;
 
-import saket.consumer.domain.userFSM.actions.StateAction;
+import saket.consumer.domain.actions.StateAction;
 import saket.consumer.domain.userFSM.states.DiscreteState;
 
 /**

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A class that acts as the model for the visits table in the database.
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "visits")
-@Getter @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -39,4 +40,16 @@ public class Visit {
 
     @OneToMany(mappedBy = "visit", fetch = FetchType.LAZY)
     private List<TransactionLog> transactionLogs;
+
+    public void linkToPlace(KnownPlace p) {
+        place = p;
+    }
+
+    public void startAt(Instant start) {
+        entryTime = Objects.requireNonNull(start);
+    }
+
+    public void endAt(Instant end) {
+        exitTime = Objects.requireNonNull(end);
+    }
 }

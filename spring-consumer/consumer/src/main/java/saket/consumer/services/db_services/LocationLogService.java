@@ -89,4 +89,15 @@ public class LocationLogService {
     public List<LocationLog> getNearbyLocations(Point point, double radius) {
         return locationLogRepository.findNearByLocations(point, radius);
     }
+
+    /**
+     * Gets all locations given a time range.
+     * @param start start of the time range.
+     * @param end end of the time range.
+     * @return list of all locations within time range.
+     */
+    @Transactional
+    public List<LocationLog> getLocationsFromTimeRange(Instant start, Instant end) {
+        return locationLogRepository.findByTimeRange(start, end);
+    }
 }

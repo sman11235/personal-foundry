@@ -10,23 +10,23 @@ import java.time.Instant;
 
 import saket.consumer.domain.KnownPlace;
 import saket.consumer.domain.KnownPlaceStatus;
+import saket.consumer.domain.actions.StateAction;
 import saket.consumer.domain.userFSM.StateDecision;
 import saket.consumer.domain.userFSM.UserLocationContext;
 import saket.consumer.domain.userFSM.UserState;
 import saket.consumer.domain.userFSM.UserStateMachine;
-import saket.consumer.domain.userFSM.actions.StateAction;
 import saket.consumer.domain.userFSM.states.DiscreteState;
-import saket.consumer.services.db_services.PointFormatUtil;
+import saket.consumer.services.db_services.PointUtil;
 
 public class StateChangeTest {
     private UserStateMachine stateChange = new UserStateMachine();
 
     private static Instant timestamp = Instant.ofEpochMilli(1767273600000L);
-    private static Point centroid = PointFormatUtil.wgs84FromLatLon(10, 10);
+    private static Point centroid = PointUtil.wgs84FromLatLon(10, 10);
     private static KnownPlace place = new KnownPlace(100L, 
             "Tech Square", 
             "Public Area", 
-            PointFormatUtil.wgs84FromLatLon(10, 10.001), 
+            PointUtil.wgs84FromLatLon(10, 10.001), 
             timestamp,
             null,
             KnownPlaceStatus.ESTABLISHED);

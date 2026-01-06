@@ -53,7 +53,7 @@ public class VisitService {
     @Transactional
     public Visit endVisit(Long visitId, Instant exitTime) {
         Visit visit = findById(visitId).get();
-        visit.setExitTime(exitTime);
+        visit.endAt(exitTime);
         return visitRepository.save(visit);
     }
 

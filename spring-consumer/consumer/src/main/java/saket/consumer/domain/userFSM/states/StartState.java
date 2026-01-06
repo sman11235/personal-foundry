@@ -3,11 +3,12 @@ package saket.consumer.domain.userFSM.states;
 import java.time.Duration;
 import java.util.List;
 
+import saket.consumer.domain.actions.CreateKnownPlaceAndStartVisitAction;
+import saket.consumer.domain.actions.StartVisit;
 import saket.consumer.domain.userFSM.StateDecision;
 import saket.consumer.domain.userFSM.UserLocationContext;
 import saket.consumer.domain.userFSM.UserState;
-import saket.consumer.domain.userFSM.actions.CreateKnownPlaceAndStartVisitAction;
-import saket.consumer.domain.userFSM.actions.StartVisit;
+import saket.consumer.services.Constants;
 
 /**
  * This class represents the START state of the user.
@@ -23,14 +24,14 @@ public class StartState implements IUserState {
     @Override
     public StateDecision onLocation(UserState userContext, UserLocationContext locationContext) {
         long windowLengthMins = Math.abs(Duration.between(locationContext.timestamp(), locationContext.oldestTimestampInWindow()).toMinutes());
-        if (windowLengthMins <= 45 - 5) { //replace 45 with whatever constant is decided for the min window length.
+        if (windowLengthMins <= Constants.WINDOW_DURATION_MINS) {
             return new StateDecision(DiscreteState.START, 
                 List.of()
             );
         }
 
         if (locationContext.stationary()) {
-            if (locationContext.nearestKnownPlaceIn50m() == null) {
+            if (locationContext.nearestKnownPlaceInRadius() == null) {
                 return new StateDecision(DiscreteState.VISITING,
                     List.of(
                         new CreateKnownPlaceAndStartVisitAction(
@@ -43,7 +44,7 @@ public class StartState implements IUserState {
 
             return new StateDecision(DiscreteState.VISITING, 
                 List.of(
-                    new StartVisit(locationContext.nearestKnownPlaceIn50m().getId(), locationContext.timestamp())
+                    new StartVisit(locationContext.nearestKnownPlaceInRadius().getId(), locationContext.timestamp())
                 )
             );
         }

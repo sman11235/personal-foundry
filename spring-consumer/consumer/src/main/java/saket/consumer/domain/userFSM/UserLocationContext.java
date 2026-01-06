@@ -20,8 +20,21 @@ public record UserLocationContext (
     Instant timestamp,
     Point centroid,
     boolean stationary,
-    KnownPlace nearestKnownPlaceIn50m,
+    KnownPlace nearestKnownPlaceInRadius,
     Instant oldestTimestampInWindow
 ) {
+    public static UserLocationContext empty() {
+        return new UserLocationContext(null, null, null, false, null, null);
+    }
 
+    public boolean isEmpty() {
+        return 
+            deviceId == null &&
+            timestamp == null &&
+            centroid == null &&
+            !stationary &&
+            nearestKnownPlaceInRadius == null &&
+            oldestTimestampInWindow == null;
+
+    }
 }

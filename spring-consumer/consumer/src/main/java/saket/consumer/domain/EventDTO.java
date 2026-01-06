@@ -2,7 +2,6 @@ package saket.consumer.domain;
 
 import java.time.Instant;
 
-import saket.consumer.services.EventOp;
 import tools.jackson.databind.JsonNode;
 
 /**

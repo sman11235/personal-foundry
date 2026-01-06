@@ -1,9 +1,11 @@
 package saket.consumer;
 import saket.consumer.domain.KnownPlace;
 import saket.consumer.services.db_services.KnownPlaceService;
+import saket.consumer.services.db_services.PointUtil;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
+import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -63,8 +65,8 @@ class KnownPlaceIntegrationTest {
         knownPlaceService.createPlace("Biggs Square", "Tourism", TECH_SQUARE_LAT + 0.25, TECH_SQUARE_LON);
         //30 meters from tech square.
         knownPlaceService.createPlace("Tech Square Pizza", "Food", 33.776870, -84.388600);
-
-        List<KnownPlace> nearby = knownPlaceService.findNearby(TECH_SQUARE_LAT, TECH_SQUARE_LON, 30000);
+        Point point = PointUtil.wgs84FromLatLon(TECH_SQUARE_LAT, TECH_SQUARE_LON);
+        List<KnownPlace> nearby = knownPlaceService.findNearby(point, 30000);
 
 
         assertThat(nearby).hasSize(NUM_OF_POINTS - 1);
@@ -75,7 +77,8 @@ class KnownPlaceIntegrationTest {
     void testCloseSpatialQuery() {
 
         // 3. Search within 500 meters of Tech Square
-        List<KnownPlace> nearby = knownPlaceService.findNearby(TECH_SQUARE_LAT, TECH_SQUARE_LON, 30);
+        Point point = PointUtil.wgs84FromLatLon(TECH_SQUARE_LAT, TECH_SQUARE_LON);
+        List<KnownPlace> nearby = knownPlaceService.findNearby(point, 30);
 
         assertThat(nearby).hasSize(NUM_OF_POINTS - 2);
         assertThat(nearby.get(0).getName()).isEqualTo("Tech Square");
@@ -87,7 +90,8 @@ class KnownPlaceIntegrationTest {
 
         // 3. Search within 500 meters of Tech Square
         //on the border between biggs and tech square.
-        List<KnownPlace> nearby = knownPlaceService.findNearby(TECH_SQUARE_LAT, TECH_SQUARE_LON, 27725); 
+        Point point = PointUtil.wgs84FromLatLon(TECH_SQUARE_LAT, TECH_SQUARE_LON);
+        List<KnownPlace> nearby = knownPlaceService.findNearby(point, 27725); 
 
         // 4. Verify we found Tech Square but NOT Times Square
         for (KnownPlace k : nearby) {

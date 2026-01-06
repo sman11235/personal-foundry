@@ -1,4 +1,4 @@
-package saket.consumer.services;
+package saket.consumer.domain;
 
 /**
  * An enum that describes the possible actions an event can commit.
@@ -6,7 +6,6 @@ package saket.consumer.services;
 public enum EventOp {
     CREATE,
     DELETE,
-    UPDATE,
     UPSERT
 } 
 
