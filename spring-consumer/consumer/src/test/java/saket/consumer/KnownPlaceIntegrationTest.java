@@ -1,73 +1,81 @@
 package saket.consumer;
 import saket.consumer.domain.KnownPlace;
-import saket.consumer.services.db_services.KnownPlaceService;
-import saket.consumer.services.db_services.PointUtil;
+import saket.consumer.domain.KnownPlaceStatus;
+import saket.consumer.repositories.KnownPlaceRepository;
+import saket.consumer.services.PointUtil;
 
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-import org.testcontainers.utility.DockerImageName;
-
+import java.time.Instant;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(classes = ConsumerApplication.class)
-@Testcontainers
-class KnownPlaceIntegrationTest {
-
-    // Spin up a Postgres 16 container with PostGIS pre-installed
-    // Note: You must use a postgis image, not standard postgres
-    private static final DockerImageName POSTGIS_IMAGE =
-      DockerImageName.parse("postgis/postgis:16-3.4-alpine")
-          .asCompatibleSubstituteFor("postgres");
-        
-    @Container
-    static PostgreSQLContainer<?> postgis = 
-        new PostgreSQLContainer<>(
-            POSTGIS_IMAGE
-        ).withDatabaseName("testDb")
-         .withUsername("appDb")
-         .withPassword("appDb")
-         .withInitScript("01-init.sql");
-
-    @DynamicPropertySource
-    static void dbProps(DynamicPropertyRegistry r) {
-        r.add("spring.datasource.url", postgis::getJdbcUrl);
-        r.add("spring.datasource.username", postgis::getUsername);
-        r.add("spring.datasource.password", postgis::getPassword);
-        // usually not needed, but if you want:
-        r.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
-
-    }
+@SpringBootTest
+class KnownPlaceIntegrationTest extends BaseContainerTest {
 
     @Autowired
-    private KnownPlaceService knownPlaceService;
+    private KnownPlaceRepository knownPlaceRepo;
 
     private static final double TECH_SQUARE_LAT = 33.7766;
     private static final double TECH_SQUARE_LON = -84.3886;
     private static final int NUM_OF_POINTS = 4;
 
+    @BeforeEach
+    void cleanAndInit() {
+        knownPlaceRepo.deleteAll();
+        KnownPlace techSquare = new KnownPlace(
+            null, 
+            "Tech Square", 
+            "Work", 
+            PointUtil.wgs84FromLatLon(TECH_SQUARE_LAT, TECH_SQUARE_LON), 
+            Instant.now(), 
+            null, 
+            KnownPlaceStatus.ESTABLISHED
+        );
+        KnownPlace timesSquare = new KnownPlace(
+            null, 
+            "Times Square", 
+            "Tourism", 
+            PointUtil.wgs84FromLatLon(40.7580, -30.9855), 
+            Instant.now(), 
+            null, 
+            KnownPlaceStatus.ESTABLISHED
+        );
+        KnownPlace biggsSquare = new KnownPlace(
+            null, 
+            "Biggs Square", 
+            "Tourism", 
+            PointUtil.wgs84FromLatLon(TECH_SQUARE_LAT + 0.25, TECH_SQUARE_LON), 
+            Instant.now(), 
+            null, 
+            KnownPlaceStatus.ESTABLISHED
+        );
+        KnownPlace techSquarePizza = new KnownPlace(
+            null, 
+            "Tech Square Pizza", 
+            "Food", 
+            PointUtil.wgs84FromLatLon(33.776870, -84.388600), 
+            Instant.now(), 
+            null, 
+            KnownPlaceStatus.ESTABLISHED
+        );
+        knownPlaceRepo.saveAndFlush(techSquare);
+        knownPlaceRepo.saveAndFlush(timesSquare);
+        //~27735 meters from tech square
+        knownPlaceRepo.saveAndFlush(biggsSquare);
+        //30 meters from tech square.
+        knownPlaceRepo.saveAndFlush(techSquarePizza);
+    }
 
     @Test
     void testSpatialQuery() {
-        knownPlaceService.createPlace("Tech Square", "Work", TECH_SQUARE_LAT, TECH_SQUARE_LON);
-        knownPlaceService.createPlace("Times Square", "Tourism", 40.7580, -30.9855);
-        //~27735 meters from tech square
-        knownPlaceService.createPlace("Biggs Square", "Tourism", TECH_SQUARE_LAT + 0.25, TECH_SQUARE_LON);
-        //30 meters from tech square.
-        knownPlaceService.createPlace("Tech Square Pizza", "Food", 33.776870, -84.388600);
         Point point = PointUtil.wgs84FromLatLon(TECH_SQUARE_LAT, TECH_SQUARE_LON);
-        List<KnownPlace> nearby = knownPlaceService.findNearby(point, 30000);
-
+        List<KnownPlace> nearby = knownPlaceRepo.findNearby(point, 30000);
 
         assertThat(nearby).hasSize(NUM_OF_POINTS - 1);
         assertThat(nearby.get(0).getName()).isEqualTo("Tech Square");
@@ -78,7 +86,7 @@ class KnownPlaceIntegrationTest {
 
         // 3. Search within 500 meters of Tech Square
         Point point = PointUtil.wgs84FromLatLon(TECH_SQUARE_LAT, TECH_SQUARE_LON);
-        List<KnownPlace> nearby = knownPlaceService.findNearby(point, 30);
+        List<KnownPlace> nearby = knownPlaceRepo.findNearby(point, 30);
 
         assertThat(nearby).hasSize(NUM_OF_POINTS - 2);
         assertThat(nearby.get(0).getName()).isEqualTo("Tech Square");
@@ -91,7 +99,7 @@ class KnownPlaceIntegrationTest {
         // 3. Search within 500 meters of Tech Square
         //on the border between biggs and tech square.
         Point point = PointUtil.wgs84FromLatLon(TECH_SQUARE_LAT, TECH_SQUARE_LON);
-        List<KnownPlace> nearby = knownPlaceService.findNearby(point, 27725); 
+        List<KnownPlace> nearby = knownPlaceRepo.findNearby(point, 27725); 
 
         // 4. Verify we found Tech Square but NOT Times Square
         for (KnownPlace k : nearby) {
@@ -100,10 +108,7 @@ class KnownPlaceIntegrationTest {
         assertThat(nearby).hasSize(NUM_OF_POINTS - 2);
 
         assertThat(nearby.get(0).getName()).isEqualTo("Tech Square");
-        assertThat(nearby.get(1).getName()).isEqualTo("Tech Square Pizza");    }
-
-    @AfterAll
-    static void tearDown() {
-        postgis.stop();
+        assertThat(nearby.get(1).getName()).isEqualTo("Tech Square Pizza");    
     }
+
 }

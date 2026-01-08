@@ -11,9 +11,8 @@ import org.springframework.stereotype.Service;
 import saket.consumer.domain.KnownPlace;
 import saket.consumer.domain.LocationLog;
 import saket.consumer.domain.userFSM.UserLocationContext;
-import saket.consumer.services.db_services.KnownPlaceService;
-import saket.consumer.services.db_services.LocationLogService;
-import saket.consumer.services.db_services.PointUtil;
+import saket.consumer.repositories.KnownPlaceRepository;
+import saket.consumer.repositories.LocationLogRepository;
 
 /**
  * A service that contains the logic that enriches raw LocationLogs into
@@ -21,12 +20,12 @@ import saket.consumer.services.db_services.PointUtil;
  */
 @Service
 public class LocationAggregationService {
-    private final LocationLogService locationServ;
-    private final KnownPlaceService placeServ;
+    private final LocationLogRepository locationRepo;
+    private final KnownPlaceRepository placeRepo;
 
-    public LocationAggregationService(LocationLogService l, KnownPlaceService k) {
-        locationServ = l;
-        placeServ = k;
+    public LocationAggregationService(LocationLogRepository l, KnownPlaceRepository k) {
+        locationRepo = l;
+        placeRepo = k;
     }
 
     /**
@@ -45,7 +44,7 @@ public class LocationAggregationService {
         Optional<Double> maxDistanceFromCentroid = maxDistanceFromCentroid(points, centroid.get());
         boolean stationary = maxDistanceFromCentroid.get() <= Constants.STATIONARY_RADIUS_M;
 
-        KnownPlace closestKnownPlace = getClosestKnownPlaceInRadius(centroid.get(), Constants.KNOWN_PLACE_MATCH_RADIUS_M).get();
+        KnownPlace closestKnownPlace = getClosestKnownPlaceInRadius(centroid.get(), Constants.KNOWN_PLACE_MATCH_RADIUS_M).orElse(null);
 
         Instant oldestTimestamp = getOldestTimestampInWindow(window);
 
@@ -60,7 +59,7 @@ public class LocationAggregationService {
      */
     private List<LocationLog> getWindow(Instant currentTime, long windowLengthMins) {
         long seconds = windowLengthMins * 60;
-        return locationServ.getLocationsFromTimeRange(currentTime.minusSeconds(seconds), currentTime);
+        return locationRepo.findByTimeRange(currentTime.minusSeconds(seconds), currentTime);
     }
 
     /**
@@ -70,7 +69,7 @@ public class LocationAggregationService {
      * @return the known_place.
      */
     private Optional<KnownPlace> getClosestKnownPlaceInRadius(Point centroid, double radius) {
-        List<KnownPlace> nearby = placeServ.findNearby(centroid, radius);
+        List<KnownPlace> nearby = placeRepo.findNearby(centroid, radius);
         if (nearby.isEmpty()) {
             return Optional.empty();
         } else if (nearby.size() == 1) {

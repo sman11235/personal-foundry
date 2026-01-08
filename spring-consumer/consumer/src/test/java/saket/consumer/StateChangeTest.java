@@ -16,7 +16,7 @@ import saket.consumer.domain.userFSM.UserLocationContext;
 import saket.consumer.domain.userFSM.UserState;
 import saket.consumer.domain.userFSM.UserStateMachine;
 import saket.consumer.domain.userFSM.states.DiscreteState;
-import saket.consumer.services.db_services.PointUtil;
+import saket.consumer.services.PointUtil;
 
 public class StateChangeTest {
     private UserStateMachine stateChange = new UserStateMachine();

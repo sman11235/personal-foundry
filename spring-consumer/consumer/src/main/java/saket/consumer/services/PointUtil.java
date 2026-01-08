@@ -1,4 +1,4 @@
-package saket.consumer.services.db_services;
+package saket.consumer.services;
 
 import java.util.List;
 import java.util.Optional;
