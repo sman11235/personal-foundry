@@ -14,7 +14,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "dev_logs")
 @Getter @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 public class DevLog {

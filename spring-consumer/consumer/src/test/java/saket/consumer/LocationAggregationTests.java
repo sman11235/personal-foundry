@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 
 import saket.consumer.domain.KnownPlace;
 import saket.consumer.domain.KnownPlaceStatus;
@@ -22,6 +23,7 @@ import saket.consumer.services.Constants;
 import saket.consumer.services.LocationAggregationService;
 import saket.consumer.services.PointUtil;
 
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest
 class LocationAggregationTests extends BaseContainerTest {
 

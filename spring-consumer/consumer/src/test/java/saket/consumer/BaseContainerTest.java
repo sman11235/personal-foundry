@@ -18,7 +18,7 @@ public abstract class BaseContainerTest {
         
     @Container
     @ServiceConnection
-    static PostgreSQLContainer<?> postgis = 
+    protected static PostgreSQLContainer<?> postgis = 
         new PostgreSQLContainer<>(
             POSTGIS_IMAGE
         ).withDatabaseName("testDb")

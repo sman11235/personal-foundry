@@ -15,7 +15,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "visits")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 public class Visit {

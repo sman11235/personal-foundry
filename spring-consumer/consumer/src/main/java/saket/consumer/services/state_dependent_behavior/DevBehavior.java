@@ -2,7 +2,7 @@ package saket.consumer.services.state_dependent_behavior;
 
 import org.springframework.stereotype.Component;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import saket.consumer.domain.DevLog;
 import saket.consumer.domain.Visit;
 import saket.consumer.domain.userFSM.UserState;

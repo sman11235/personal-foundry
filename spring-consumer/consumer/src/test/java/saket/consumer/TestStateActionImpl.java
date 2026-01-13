@@ -8,14 +8,9 @@ import saket.consumer.domain.actions.StateActionRepository;
 
 public class TestStateActionImpl implements StateActionRepository {
     @Override
-    public long createNewKnownPlace(Point centroid) {
+    public long createNewKnownPlace(Point centroid, Instant start) {
         System.out.println("Created new place with placeId 0");
         return 0;
-    }
-
-    @Override
-    public void attachVisitToActivities(long visitId, Instant start, Instant end) {
-        System.out.println("Attached visits");
     }
 
     @Override

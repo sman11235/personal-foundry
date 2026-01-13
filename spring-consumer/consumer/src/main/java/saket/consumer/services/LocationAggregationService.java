@@ -7,9 +7,9 @@ import java.util.Optional;
 
 import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import saket.consumer.domain.KnownPlace;
-import saket.consumer.domain.KnownPlaceStatus;
 import saket.consumer.domain.LocationLog;
 import saket.consumer.domain.userFSM.UserLocationContext;
 import saket.consumer.repositories.KnownPlaceRepository;
@@ -58,6 +58,7 @@ public class LocationAggregationService {
      * @param windowLengthMins The temporal length of the window.
      * @return List of location logs.
      */
+    @Transactional
     private List<LocationLog> getWindow(Instant currentTime, long windowLengthMins) {
         long seconds = windowLengthMins * 60;
         return locationRepo.findByTimeRange(currentTime.minusSeconds(seconds), currentTime);
@@ -69,6 +70,7 @@ public class LocationAggregationService {
      * @param radius the radius of the search.
      * @return the known_place.
      */
+    @Transactional
     private Optional<KnownPlace> getClosestKnownPlaceInRadius(Point centroid, double radius) {
         List<KnownPlace> nearby = placeRepo.findNearby(centroid, radius);
         if (nearby.isEmpty()) return Optional.empty();
@@ -76,8 +78,7 @@ public class LocationAggregationService {
             p -> PointUtil.distanceInMeters(p.getLoc(), centroid)
         ));
         for (KnownPlace k : nearby) {
-            if (k.getStatus() == KnownPlaceStatus.ESTABLISHED)
-                return Optional.of(k);
+            return Optional.of(k);
         }
         return Optional.empty();
     }

@@ -1,26 +1,33 @@
 package saket.consumer.services;
 
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.UnaryOperator;
 
 import org.springframework.stereotype.Component;
 
 import saket.consumer.domain.userFSM.UserState;
+import saket.consumer.domain.userFSM.states.DiscreteState;
 
 @Component
 public class UserStateStore {
-    private final AtomicReference<UserState> ref = new AtomicReference<>(UserState.initial());
+    private final AtomicReference<UserState> ref =
+        new AtomicReference<>(UserState.initial());
 
     public UserState get() {
         return ref.get();
     }
 
-    public void set(UserState newState) {
-        ref.set(newState);
+    public DiscreteState getState() {
+        return ref.get().getState();
     }
 
-    // handy for safe transitions
-    public UserState update(UnaryOperator<UserState> f) {
-        return ref.updateAndGet(f);
+    public Optional<Long> getVisitId() {
+        return Optional.ofNullable(ref.get().getCurrentVisit());
+    }
+
+    public UserState update(UnaryOperator<UserState> fn) {
+        return ref.updateAndGet(fn);
     }
 }
+

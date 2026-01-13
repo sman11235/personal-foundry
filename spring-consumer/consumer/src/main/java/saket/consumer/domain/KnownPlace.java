@@ -16,7 +16,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "known_places")
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 public class KnownPlace {

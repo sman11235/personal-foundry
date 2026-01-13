@@ -8,9 +8,18 @@ import org.locationtech.jts.geom.Point;
  * defines how StateAction can communicate with other backend infrastructure.
  */
 public interface StateActionRepository {
-    //this function will use a geolocation service to figure out a name and category for the new place.
-    long createNewKnownPlace(Point centroid);
+    /**
+     * Creates and returns new place's ID.
+     * @return the new place's ID.
+     */
+    long createNewKnownPlace(Point centroid, Instant now);
+    /**
+     * Starts a visit at place [placeId] and at time [start].
+     * @return the ID of the visit created.
+     */
     long startVisit(long placeId, Instant start);
+    /**
+     * Ends a visit at place [placeId] and at time [start].
+     */
     void endVisit(long visitId, Instant end);
-    void attachVisitToActivities(long visitId, Instant start, Instant end);
 }

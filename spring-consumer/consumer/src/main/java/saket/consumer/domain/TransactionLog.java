@@ -12,7 +12,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "transaction_logs")
 @Getter @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 public class TransactionLog {

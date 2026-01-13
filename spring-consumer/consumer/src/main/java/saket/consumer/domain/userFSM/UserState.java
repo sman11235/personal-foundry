@@ -1,5 +1,7 @@
 package saket.consumer.domain.userFSM;
 
+import java.util.Optional;
+
 import saket.consumer.domain.userFSM.states.DiscreteState;
 import saket.consumer.exceptions.InvalidStateException;
 /**
@@ -41,15 +43,21 @@ public class UserState {
         state = d;
     }
 
-    public void startVisit(Long cv) {
-        currentVisit = cv;
+    public void setVisit(long visit) {
+        currentVisit = visit;
     }
 
-    public void endVisit() {
+    public void setVisitNull() {
         currentVisit = null;
     }
 
     public static final UserState initial() {
         return new UserState(DiscreteState.START);
     } 
+
+    public static final UserState of(DiscreteState state, Optional<Long> visitId) {
+        if (visitId.isPresent())
+            return new UserState(state, visitId.get());
+        return new UserState(state);
+    }
 }
