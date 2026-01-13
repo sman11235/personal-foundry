@@ -13,7 +13,7 @@ CREATE TABLE visits (
     id BIGSERIAL PRIMARY KEY,
     place_id BIGINT REFERENCES known_places(id),
     entry_time TIMESTAMPTZ NOT NULL,
-    exit_time TIMESTAMPTZ NOT NULL
+    exit_time TIMESTAMPTZ
 );
 
 CREATE TABLE location_logs (
