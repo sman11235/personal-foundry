@@ -11,6 +11,9 @@ import saket.consumer.domain.KnownPlaceStatus;
 import saket.consumer.domain.Visit;
 import saket.consumer.domain.actions.StateActionRepository;
 
+/**
+ * A repository that connects to JPA Databases.
+ */
 @Repository
 public class JPAStateActionRepository implements StateActionRepository {
     private KnownPlaceRepository knownPlaceRepository;
