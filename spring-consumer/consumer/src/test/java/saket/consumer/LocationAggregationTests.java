@@ -117,9 +117,9 @@ class LocationAggregationTests extends BaseContainerTest {
         locationLogRepository.saveAll(List.of(
             new LocationLog(null, now.minusSeconds(30), DEVICE_ID, near, null),
             new LocationLog(null, now.minusSeconds(20), DEVICE_ID, near, null),
-            new LocationLog(null, now.minusSeconds(30), DEVICE_ID, near, null),
-            new LocationLog(null, now.minusSeconds(20), DEVICE_ID, near, null),
-            new LocationLog(null, now.minusSeconds(10), DEVICE_ID, far, null)
+            new LocationLog(null, now.minusSeconds(10), DEVICE_ID, near, null),
+            new LocationLog(null, now.minusSeconds(5), DEVICE_ID, near, null),
+            new LocationLog(null, now.minusSeconds(50), DEVICE_ID, far, null)
         ));
         locationLogRepository.flush();
 
@@ -168,4 +168,44 @@ class LocationAggregationTests extends BaseContainerTest {
         // Assert: oldest should be the oldest *inside* the window, not the too-old one
         assertThat(ctx.oldestTimestampInWindow()).isEqualTo(now.minusSeconds(20));
     }
+
+    @Test
+    void aggregateLocationInfo_stationary_true_whenFarPointOutOfWindowTimeRange() {
+        // Arrange: known place near Tech Square
+        Point techSquare = PointUtil.wgs84FromLatLon(TECH_SQUARE_LAT, TECH_SQUARE_LON);
+        KnownPlace kp = new KnownPlace(
+            null,
+            "Tech Square",
+            "Work",
+            techSquare,
+            Instant.now(),
+            null,
+            KnownPlaceStatus.ESTABLISHED
+        );
+        knownPlaceRepository.saveAndFlush(kp);
+
+        Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+        // One point far enough to exceed stationary radius (1km-ish)
+        Point near = PointUtil.wgs84FromLatLon(TECH_SQUARE_LAT, TECH_SQUARE_LON);
+        Point far = PointUtil.wgs84FromLatLon(TECH_SQUARE_LAT + 0.01, TECH_SQUARE_LON);
+
+        locationLogRepository.saveAll(List.of(
+            new LocationLog(null, now.minusSeconds(30), DEVICE_ID, near, null),
+            new LocationLog(null, now.minusSeconds(20), DEVICE_ID, near, null),
+            new LocationLog(null, now.minusSeconds(10), DEVICE_ID, near, null),
+            new LocationLog(null, now.minusSeconds(5), DEVICE_ID, near, null),
+            //the far point is 50 mins before now, while the max window time range is 45 mins.
+            new LocationLog(null, now.minusSeconds(50 * 60), DEVICE_ID, far, null)
+        ));
+        locationLogRepository.flush();
+
+        // Act
+        UserLocationContext ctx = locationAggregationService.aggregateLocationInfo(now, DEVICE_ID);
+        System.out.println(ctx);
+
+        // Assert
+        assertThat(ctx.stationary()).isTrue();
+    }
+
 }

@@ -9,7 +9,7 @@ import saket.consumer.domain.userFSM.states.DiscreteState;
  */
 public record EndVisit(long visitId, Instant end) implements StateAction {
     @Override
-    public ActionResult execute(StateActionContext context) {
+    public ActionResult execute(StateActionRepository context) {
         context.endVisit(visitId, end);
         return new ActionResult(null, null, DiscreteState.MOVING);
     }

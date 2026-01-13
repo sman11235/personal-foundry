@@ -19,5 +19,5 @@ public interface IUserState {
      * @param locationContext the condensed location history about the user. Contains the centroid calculated by taking the user's previous locations and averaging them. 
      * @return StateDecision: The next DiscreteState, and the associated state changing actions.
      */
-    StateDecision onLocation(UserState userContext, UserLocationContext locationContext); //takes care of visit logic, knownplace logic, and location logic.
+    StateDecision next(UserState userContext, UserLocationContext locationContext); //takes care of visit logic, knownplace logic, and location logic.
 }

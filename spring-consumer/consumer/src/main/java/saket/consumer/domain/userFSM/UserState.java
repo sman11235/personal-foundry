@@ -48,4 +48,8 @@ public class UserState {
     public void endVisit() {
         currentVisit = null;
     }
+
+    public static final UserState initial() {
+        return new UserState(DiscreteState.START);
+    } 
 }

@@ -21,7 +21,7 @@ public class MovingState implements IUserState {
     }
 
     @Override
-    public StateDecision onLocation(UserState userContext, UserLocationContext locationContext) {
+    public StateDecision next(UserState userContext, UserLocationContext locationContext) {
 
         long windowLengthMins = Math.abs(Duration.between(locationContext.timestamp(), locationContext.oldestTimestampInWindow()).toMinutes());
         if (windowLengthMins <= Constants.WINDOW_DURATION_MINS) {

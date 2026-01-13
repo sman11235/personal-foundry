@@ -14,12 +14,12 @@ import saket.consumer.domain.actions.StateAction;
 import saket.consumer.domain.userFSM.StateDecision;
 import saket.consumer.domain.userFSM.UserLocationContext;
 import saket.consumer.domain.userFSM.UserState;
-import saket.consumer.domain.userFSM.UserStateMachine;
+import saket.consumer.services.UserStateMachineService;
 import saket.consumer.domain.userFSM.states.DiscreteState;
 import saket.consumer.services.PointUtil;
 
 public class StateChangeTest {
-    private UserStateMachine stateChange = new UserStateMachine();
+    private UserStateMachineService stateChange = new UserStateMachineService();
 
     private static Instant timestamp = Instant.ofEpochMilli(1767273600000L);
     private static Point centroid = PointUtil.wgs84FromLatLon(10, 10);

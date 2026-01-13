@@ -14,7 +14,7 @@ public record CreateKnownPlaceAndStartVisitAction(
 		Instant start
 	) implements StateAction {
 		@Override
-		public ActionResult execute(StateActionContext ctx) {
+		public ActionResult execute(StateActionRepository ctx) {
 			long placeId = ctx.createNewKnownPlace(centroid);
 			long visitId = ctx.startVisit(placeId, start);
 			return new ActionResult(visitId, placeId, DiscreteState.VISITING);

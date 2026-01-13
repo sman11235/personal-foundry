@@ -4,9 +4,9 @@ import java.time.Instant;
 
 import org.locationtech.jts.geom.Point;
 
-import saket.consumer.domain.actions.StateActionContext;
+import saket.consumer.domain.actions.StateActionRepository;
 
-public class TestStateActionImpl implements StateActionContext {
+public class TestStateActionImpl implements StateActionRepository {
     @Override
     public long createNewKnownPlace(Point centroid) {
         System.out.println("Created new place with placeId 0");

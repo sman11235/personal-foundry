@@ -10,5 +10,5 @@ public interface StateAction {
      * @param context The infrastructure context to which the action will change the state of.
      * @return ActionResult. Read its javadocs for more info.
      */
-    ActionResult execute(StateActionContext context);
+    ActionResult execute(StateActionRepository context);
 }

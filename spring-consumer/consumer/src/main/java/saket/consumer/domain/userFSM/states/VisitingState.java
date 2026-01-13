@@ -21,7 +21,7 @@ public class VisitingState implements IUserState {
     }
 
     @Override
-    public StateDecision onLocation(UserState userContext, UserLocationContext locationContext) {
+    public StateDecision next(UserState userContext, UserLocationContext locationContext) {
         if (userContext.getCurrentVisit() == null) {
             throw new IllegalStateException("When state is VisitingState, user must be visiting a known_place." +
                                             " Currently, currentVisitID is null (User is not visiting anywhere).");

@@ -13,7 +13,7 @@ public class LocationStrategy implements ITypeStrategy {
 
     @Override
     public boolean handle(EventDTO event) {
-        // TODO Auto-generated method stub
+        
         return false;
     }
 }

@@ -9,6 +9,7 @@ import org.locationtech.jts.geom.Point;
 import org.springframework.stereotype.Service;
 
 import saket.consumer.domain.KnownPlace;
+import saket.consumer.domain.KnownPlaceStatus;
 import saket.consumer.domain.LocationLog;
 import saket.consumer.domain.userFSM.UserLocationContext;
 import saket.consumer.repositories.KnownPlaceRepository;
@@ -41,8 +42,8 @@ public class LocationAggregationService {
         Optional<Point> centroid = PointUtil.centroid(points);
         if (centroid.isEmpty()) return UserLocationContext.empty();
 
-        Optional<Double> maxDistanceFromCentroid = maxDistanceFromCentroid(points, centroid.get());
-        boolean stationary = maxDistanceFromCentroid.get() <= Constants.STATIONARY_RADIUS_M;
+        double maxDistanceFromCentroid = maxDistanceFromCentroid(points, centroid.get());
+        boolean stationary = maxDistanceFromCentroid <= Constants.STATIONARY_RADIUS_M;
 
         KnownPlace closestKnownPlace = getClosestKnownPlaceInRadius(centroid.get(), Constants.KNOWN_PLACE_MATCH_RADIUS_M).orElse(null);
 
@@ -63,23 +64,22 @@ public class LocationAggregationService {
     }
 
     /**
-     * Gets the closest known_place from point centroid, iff the known_place if within radius meters of centroid.
+     * Gets the closest established known_place from point centroid, iff the known_place if within radius meters of centroid.
      * @param centroid the central point from which the search will be conducted.
      * @param radius the radius of the search.
      * @return the known_place.
      */
     private Optional<KnownPlace> getClosestKnownPlaceInRadius(Point centroid, double radius) {
         List<KnownPlace> nearby = placeRepo.findNearby(centroid, radius);
-        if (nearby.isEmpty()) {
-            return Optional.empty();
-        } else if (nearby.size() == 1) {
-            return Optional.of(nearby.get(0));
-        } else {
-            nearby.sort(Comparator.comparingDouble(
-                p -> PointUtil.distanceInMeters(p.getLoc(), centroid)
-            ));
-            return Optional.of(nearby.get(0));
+        if (nearby.isEmpty()) return Optional.empty();
+        nearby.sort(Comparator.comparingDouble(
+            p -> PointUtil.distanceInMeters(p.getLoc(), centroid)
+        ));
+        for (KnownPlace k : nearby) {
+            if (k.getStatus() == KnownPlaceStatus.ESTABLISHED)
+                return Optional.of(k);
         }
+        return Optional.empty();
     }
 
     /**
@@ -88,17 +88,15 @@ public class LocationAggregationService {
      * @param point the point that distance will be calculated from.
      * @return the furthest distance in window from point.
      */
-    private Optional<Double> maxDistanceFromCentroid(List<Point> window, Point centroid) {
-        if (window.isEmpty()) {
-            return Optional.empty();
-        }
+    private Double maxDistanceFromCentroid(List<Point> window, Point centroid) {
+
         double max = 0.0;
         for (Point p : window) {
             if (p == null) continue;
             double d = PointUtil.distanceInMeters(p, centroid);
             if (d > max) max = d;
         }
-        return Optional.of(max);
+        return max;
     }
 
     /**
