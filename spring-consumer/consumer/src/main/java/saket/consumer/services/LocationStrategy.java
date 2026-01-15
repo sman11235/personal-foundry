@@ -11,13 +11,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import saket.consumer.domain.EventDTO;
+import saket.consumer.domain.LocationDTO;
 import saket.consumer.domain.LocationLog;
+import saket.consumer.domain.Visit;
 import saket.consumer.domain.actions.ActionResult;
 import saket.consumer.domain.userFSM.StateDecision;
 import saket.consumer.domain.userFSM.UserLocationContext;
 import saket.consumer.domain.userFSM.UserState;
+import saket.consumer.domain.userFSM.states.DiscreteState;
 import saket.consumer.repositories.JPAStateActionRepository;
 import saket.consumer.repositories.LocationLogRepository;
+import saket.consumer.repositories.VisitRepository;
 
 @Slf4j
 @Component
@@ -30,6 +34,8 @@ public class LocationStrategy implements ITypeStrategy {
     private final UserStateStore userStateStore;
     private final IStateActionRunner actionRunner;
     private final JPAStateActionRepository actionRepository;
+    private final ILocationDtoMapper locationMapper;
+    private final VisitRepository visitRepository;
 
     public LocationStrategy(
         ObjectMapper jReader, 
@@ -38,7 +44,9 @@ public class LocationStrategy implements ITypeStrategy {
         UserStateMachineService userStateService,
         UserStateStore userStateStore,
         IStateActionRunner actionRunner,
-        JPAStateActionRepository actionRepository
+        JPAStateActionRepository actionRepository,
+        ILocationDtoMapper locationMapper,
+        VisitRepository visitRepository
     ) {
         jsonReader = jReader;
         this.locationRepo = locationRepo;
@@ -47,6 +55,8 @@ public class LocationStrategy implements ITypeStrategy {
         this.userStateStore = userStateStore;
         this.actionRunner = actionRunner;
         this.actionRepository = actionRepository;
+        this.locationMapper = locationMapper;
+        this.visitRepository = visitRepository;
     }
 
     @Override
@@ -57,18 +67,26 @@ public class LocationStrategy implements ITypeStrategy {
     @Transactional
     @Override
     public void handle(EventDTO event) {
-        LocationLog payload = null;
+        LocationDTO payload = null;
         try {
-            payload = jsonReader.treeToValue(event.payload(), LocationLog.class);
+            payload = jsonReader.treeToValue(event.payload(), LocationDTO.class);
         } catch (JsonProcessingException e) {
             log.error("JSON payload from EventDTO was malformed in LocationStrategy.");
             return;
         }
-        locationRepo.save(payload);
 
+        LocationLog newLoc = locationMapper.toEntity(payload);
         UserState currentState = userStateStore.get();
+        if (currentState.getState() == DiscreteState.VISITING) {
+            Visit currentVisit = visitRepository.getReferenceById(currentState.getCurrentVisit());
+            newLoc.setVisit(currentVisit);
+        }
+        newLoc = locationRepo.save(newLoc);
+        
+        UserLocationContext userLocationCtx = locationAggregator.aggregateLocationInfo(newLoc.getTimestamp(), event.deviceId());
 
-        UserLocationContext userLocationCtx = locationAggregator.aggregateLocationInfo(payload.getTimestamp(), event.deviceId());
+        if (UserLocationContext.isEmpty(userLocationCtx))
+            return;
 
         StateDecision stateDecision = userStateService.nextState(currentState, userLocationCtx);
 
@@ -88,7 +106,7 @@ public class LocationStrategy implements ITypeStrategy {
         UserState newState = UserState.of(stateDecision.state(), newVisitId);
 
         if (closeCurrentVisit) {
-            newState.setVisitNull();
+            newState.setVisit(null);
         } else if (newVisitId.isEmpty()) {
             newState.setVisit(currentState.getCurrentVisit());
         }

@@ -37,10 +37,11 @@ public class LocationAggregationService {
      */
     public UserLocationContext aggregateLocationInfo(Instant currentTime, String deviceId) {
         List<LocationLog> window = getWindow(currentTime, Constants.WINDOW_DURATION_MINS);
+        if (window.isEmpty()) return UserLocationContext.empty();
+        
         List<Point> points = window.stream().map(LocationLog::getLoc).toList();
 
         Optional<Point> centroid = PointUtil.centroid(points);
-        if (centroid.isEmpty()) return UserLocationContext.empty();
 
         double maxDistanceFromCentroid = maxDistanceFromCentroid(points, centroid.get());
         boolean stationary = maxDistanceFromCentroid <= Constants.STATIONARY_RADIUS_M;

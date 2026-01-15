@@ -22,7 +22,7 @@ public interface LocationLogRepository extends JpaRepository<LocationLog, Long> 
         select l
         from LocationLog l
         where l.timestamp >= :start
-          and l.timestamp < :end
+          and l.timestamp <= :end
         order by l.timestamp asc
     """)
     List<LocationLog> findByTimeRange(@Param("start") Instant start, @Param("end") Instant end);

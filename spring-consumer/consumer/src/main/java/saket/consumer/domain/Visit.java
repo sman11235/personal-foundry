@@ -31,7 +31,7 @@ public class Visit {
     @Column(name = "entry_time", nullable = false)
     private Instant entryTime;
 
-    @Column(name = "exit_time", nullable = false)
+    @Column(name = "exit_time")
     private Instant exitTime;
 
     // Bidirectional mappings for logs (Optional, but useful)

@@ -43,12 +43,8 @@ public class UserState {
         state = d;
     }
 
-    public void setVisit(long visit) {
+    public void setVisit(Long visit) {
         currentVisit = visit;
-    }
-
-    public void setVisitNull() {
-        currentVisit = null;
     }
 
     public static final UserState initial() {

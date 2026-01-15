@@ -27,14 +27,14 @@ public record UserLocationContext (
         return new UserLocationContext(null, null, null, false, null, null);
     }
 
-    public boolean isEmpty() {
+    public static boolean isEmpty(UserLocationContext ctx) {
         return 
-            deviceId == null &&
-            timestamp == null &&
-            centroid == null &&
-            !stationary &&
-            nearestKnownPlaceInRadius == null &&
-            oldestTimestampInWindow == null;
+            ctx.deviceId == null &&
+            ctx.timestamp == null &&
+            ctx.centroid == null &&
+            !ctx.stationary &&
+            ctx.nearestKnownPlaceInRadius == null &&
+            ctx.oldestTimestampInWindow == null;
 
     }
 }

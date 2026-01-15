@@ -210,4 +210,32 @@ class LocationAggregationTests extends BaseContainerTest {
         assertThat(ctx.stationary()).isTrue();
     }
 
+    @Test
+    void aggregateLocationInfo_empty_window() {
+        // Arrange: known place near Tech Square
+        Point techSquare = PointUtil.wgs84FromLatLon(TECH_SQUARE_LAT, TECH_SQUARE_LON);
+        KnownPlace kp = new KnownPlace(
+            null,
+            "Tech Square",
+            "Work",
+            techSquare,
+            Instant.now(),
+            null,
+            KnownPlaceStatus.ESTABLISHED
+        );
+        knownPlaceRepository.saveAndFlush(kp);
+
+        Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+        // One point far enough to exceed stationary radius (1km-ish)
+
+        locationLogRepository.flush();
+
+        // Act
+        UserLocationContext ctx = locationAggregationService.aggregateLocationInfo(now, DEVICE_ID);
+        System.out.println(ctx);
+
+        // Assert
+        assertThat(UserLocationContext.isEmpty(ctx)).isTrue();
+    }
 }

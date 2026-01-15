@@ -27,10 +27,20 @@ public class LocationLog {
     @Column(name = "device_id", nullable = false)
     private String deviceId;
 
-    @Column(columnDefinition = "geometry(Point, 4326)")
+    @Column(columnDefinition = "GEOGRAPHY(Point, 4326)")
     private Point loc;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "visit_id")
     private Visit visit;
+
+    @Override
+    public String toString() {
+        return "{id: " + id
+            + "; timestamp: " + timestamp 
+            + "; deviceId: " + deviceId 
+            + "; loc: " + loc 
+            + "; visit: " + (visit == null ? "null" : visit.getId()) 
+            + " }";
+    }
 }
