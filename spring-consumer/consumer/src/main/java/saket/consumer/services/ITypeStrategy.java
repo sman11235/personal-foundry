@@ -15,7 +15,6 @@ public interface ITypeStrategy {
     /**
      * A function that handles an event received from kafka.
      * @param event the event DTO from kafka.
-     * @return true if success, false if fail.
      */
     void handle(EventDTO event);
 }

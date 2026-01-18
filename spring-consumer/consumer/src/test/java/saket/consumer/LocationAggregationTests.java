@@ -23,6 +23,7 @@ import saket.consumer.services.Constants;
 import saket.consumer.services.LocationAggregationService;
 import saket.consumer.services.PointUtil;
 
+@SuppressWarnings("unchecked")
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
 @SpringBootTest
 class LocationAggregationTests extends BaseContainerTest {
@@ -198,7 +199,7 @@ class LocationAggregationTests extends BaseContainerTest {
             new LocationLog(null, now.minusSeconds(10), DEVICE_ID, near, null),
             new LocationLog(null, now.minusSeconds(5), DEVICE_ID, near, null),
             //the far point is 50 mins before now, while the max window time range is 45 mins.
-            new LocationLog(null, now.minusSeconds(50 * 60), DEVICE_ID, far, null)
+            new LocationLog(null, now.minusSeconds((Constants.WINDOW_DURATION_MINS + 5) * 60), DEVICE_ID, far, null)
         ));
         locationLogRepository.flush();
 

@@ -9,13 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 import saket.consumer.domain.KnownPlace;
 import saket.consumer.domain.KnownPlaceStatus;
 import saket.consumer.domain.Visit;
-import saket.consumer.domain.actions.StateActionRepository;
+import saket.consumer.domain.actions.IStateActionRepository;
 
 /**
  * A repository that connects to JPA Databases.
  */
 @Repository
-public class JPAStateActionRepository implements StateActionRepository {
+public class JPAStateActionRepository implements IStateActionRepository {
     private KnownPlaceRepository knownPlaceRepository;
     private VisitRepository visitRepository;
 

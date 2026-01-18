@@ -7,7 +7,7 @@ import org.locationtech.jts.geom.Point;
 /**
  * defines how StateAction can communicate with other backend infrastructure.
  */
-public interface StateActionRepository {
+public interface IStateActionRepository {
     /**
      * Creates and returns new place's ID.
      * @return the new place's ID.

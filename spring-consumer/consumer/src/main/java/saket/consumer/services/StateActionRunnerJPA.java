@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 
 import saket.consumer.domain.actions.ActionResult;
 import saket.consumer.domain.actions.StateAction;
-import saket.consumer.domain.actions.StateActionRepository;
+import saket.consumer.domain.actions.IStateActionRepository;
 
 @Component
 public class StateActionRunnerJPA implements IStateActionRunner {
     @Override
-    public List<ActionResult> run(List<StateAction> actions, StateActionRepository repository) {
+    public List<ActionResult> run(List<StateAction> actions, IStateActionRepository repository) {
         List<ActionResult> results = new ArrayList<>();
         for (StateAction action : actions) {
             results.add(

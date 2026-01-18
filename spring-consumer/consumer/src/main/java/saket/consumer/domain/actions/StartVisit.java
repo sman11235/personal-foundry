@@ -7,7 +7,7 @@ import java.time.Instant;
  */
 public record StartVisit(long placeId, Instant start) implements StateAction {
     @Override
-    public ActionResult execute(StateActionRepository context) {
+    public ActionResult execute(IStateActionRepository context) {
         long visitId = context.startVisit(placeId, start);
         return new ActionResult(visitId, false);
     }

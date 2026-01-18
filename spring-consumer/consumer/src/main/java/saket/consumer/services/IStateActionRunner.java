@@ -4,7 +4,7 @@ import java.util.List;
 
 import saket.consumer.domain.actions.ActionResult;
 import saket.consumer.domain.actions.StateAction;
-import saket.consumer.domain.actions.StateActionRepository;
+import saket.consumer.domain.actions.IStateActionRepository;
 
 /**
  * An interface that defines the behavior of classes that will run StateActions.
@@ -17,5 +17,5 @@ public interface IStateActionRunner {
      * @param repository The repository that defines the changes to the persistence layer.
      * @return the results of all actions
      */
-    List<ActionResult> run(List<StateAction> actions, StateActionRepository repository);
+    List<ActionResult> run(List<StateAction> actions, IStateActionRepository repository);
 }

@@ -12,7 +12,7 @@ public record CreateKnownPlaceAndStartVisitAction(
 		Instant start
 	) implements StateAction {
 		@Override
-		public ActionResult execute(StateActionRepository ctx) {
+		public ActionResult execute(IStateActionRepository ctx) {
 			long placeId = ctx.createNewKnownPlace(centroid, start);
 			long visitId = ctx.startVisit(placeId, start);
 			return new ActionResult(visitId, false);

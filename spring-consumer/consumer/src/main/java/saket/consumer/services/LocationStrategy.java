@@ -15,7 +15,7 @@ import saket.consumer.domain.LocationDTO;
 import saket.consumer.domain.LocationLog;
 import saket.consumer.domain.Visit;
 import saket.consumer.domain.actions.ActionResult;
-import saket.consumer.domain.actions.StateActionRepository;
+import saket.consumer.domain.actions.IStateActionRepository;
 import saket.consumer.domain.userFSM.StateDecision;
 import saket.consumer.domain.userFSM.UserLocationContext;
 import saket.consumer.domain.userFSM.UserState;
@@ -33,7 +33,7 @@ public class LocationStrategy implements ITypeStrategy {
     private final UserStateMachineService userStateService;
     private final UserStateStore userStateStore;
     private final IStateActionRunner actionRunner;
-    private final StateActionRepository actionRepository;
+    private final IStateActionRepository actionRepository;
     private final ILocationDtoMapper locationMapper;
     private final VisitRepository visitRepository;
 
@@ -44,7 +44,7 @@ public class LocationStrategy implements ITypeStrategy {
         UserStateMachineService userStateService,
         UserStateStore userStateStore,
         IStateActionRunner actionRunner,
-        StateActionRepository actionRepository,
+        IStateActionRepository actionRepository,
         ILocationDtoMapper locationMapper,
         VisitRepository visitRepository
     ) {

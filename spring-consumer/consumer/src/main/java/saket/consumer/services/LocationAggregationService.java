@@ -41,16 +41,17 @@ public class LocationAggregationService {
         
         List<Point> points = window.stream().map(LocationLog::getLoc).toList();
 
-        Optional<Point> centroid = PointUtil.centroid(points);
+        Optional<Point> centroidOrNull = PointUtil.centroid(points);
+        Point centroid = centroidOrNull.orElseThrow();
 
-        double maxDistanceFromCentroid = maxDistanceFromCentroid(points, centroid.get());
+        double maxDistanceFromCentroid = maxDistanceFromCentroid(points, centroid);
         boolean stationary = maxDistanceFromCentroid <= Constants.STATIONARY_RADIUS_M;
 
-        KnownPlace closestKnownPlace = getClosestKnownPlaceInRadius(centroid.get(), Constants.KNOWN_PLACE_MATCH_RADIUS_M).orElse(null);
+        KnownPlace closestKnownPlace = getClosestKnownPlaceInRadius(centroid, Constants.KNOWN_PLACE_MATCH_RADIUS_M).orElse(null);
 
         Instant oldestTimestamp = getOldestTimestampInWindow(window);
 
-        return new UserLocationContext(deviceId, currentTime, centroid.get(), stationary, closestKnownPlace, oldestTimestamp);
+        return new UserLocationContext(deviceId, currentTime, centroid, stationary, closestKnownPlace, oldestTimestamp);
     }
 
     /**
